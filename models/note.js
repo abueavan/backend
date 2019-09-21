@@ -1,17 +1,6 @@
-/* eslint-disable no-unused-vars */
+// The responsibility of establishing the connection to the database has been given to the app.js module.
+// The note.js file under the models directory only defines the Mongoose schema for notes.
 const mongoose = require('mongoose')
-
-const url = process.env.MONGODB_URI
-
-console.log('connecting to',url)
-
-mongoose.connect(url, { useNewUrlParser:true, useUnifiedTopology: true, useFindAndModify:false, useCreateIndex: true })
-  .then(_ => {
-    console.log('connected to MongoDB')
-  })
-  .catch(error => {
-    console.log('errro connecting to MongoDb', error.message)
-  })
 
 const noteSchema = new mongoose.Schema({
   content: {
@@ -24,6 +13,10 @@ const noteSchema = new mongoose.Schema({
     required: true
   },
   important: Boolean,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'User'
+  }
 })
 
 noteSchema.set('toJSON', {
